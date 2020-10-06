@@ -1,0 +1,59 @@
+#settings {
+    padding: 50px;
+}
+
+.row {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    
+}
+
+.column {
+    flex: 50%;
+    padding: 5px;
+    text-align: left;
+}
+
+.column2 {
+    flex: 50%;
+    padding: 5px;
+    text-align: right;
+
+}
+
+#heading {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 3px;
+    color: #999;
+    background-color: #eee;
+}
+
+#edit {
+    font-style: italic;
+    color: blue;
+}
+
+#delete {
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+#del {
+    font-style: italic;
+}
+
+#useremail {
+    overflow: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}

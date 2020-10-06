@@ -1,0 +1,32 @@
+<!-- Import webpage layout -->
+{% extends "layout.html" %}
+{% block content %}
+<head><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='profile.css') }}"> </head>    
+    <div class="table">
+        <p id="heading">BASICS</p>
+        <div class="row">
+            <div class="column">
+            Username: 
+            </div>
+            <div class="column2">
+            <!-- Display current username -->
+            <p>{{ current_user.username }}</p>
+            </div>
+        </div>
+
+    <div class="table">
+        <p id="heading">MISC</p>
+        <div class="row">
+            <div class="column">
+                Delete Account
+            </div>
+            <div class="column2" id="del">
+                <!-- Form containing button to delete users' account -->
+                <form method="POST">
+                If you delete your account, your data will be gone forever. <input type="submit" class="btn btn-danger" name="delete" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

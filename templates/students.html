@@ -1,0 +1,154 @@
+{% extends "layout.html" %}
+{% block content %}
+<head>
+  <link rel="stylesheet" href="static/students.css">
+</head>
+
+<title>Student Records</title>
+<!-- If user is logged in -->
+{% if current_user.is_authenticated %}
+<h2 align="center">Hello, {{ current_user.username }}.</h2>
+
+<!-- Button to add new record -->
+<button type="button" id="addStudent" class="btn btn-success" data-toggle="modal" data-target="#addRecord">Add new record</button>
+
+
+<!-- Retrieve and display flashed message to user -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success fade show" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>Success!</strong> {{ message }}
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Table to display existing student records -->
+ <!-- Table to display existing student records -->
+<table align="center">
+  <tr>
+    <!-- Name of columns -->
+    <th>Student ID</th>
+    <th>First name</th> 
+    <th>Last name</th>
+    <th>Email</th>
+    <th>Action</th>
+  </tr>
+  
+  <!-- Retrieve student data -->
+  {% for student in students %}
+    <tr>
+    <!-- Display student data by using SQLAlchemy -->
+    <td>{{ student.id }}</td>
+    <td>{{ student.firstname }}</td>
+    <td>{{ student.lastname }}</td>
+    <td>{{ student.email }}</td>
+
+    <!-- Edit/delete functions for existing student records --> 
+    <td><a href="/update/{{ student.id }}" class="btn btn-primary" data-toggle="modal" data-target="#editRecord{{ student.id }}">Edit</a>
+    <a href="/delete/{{ student.id }}" class="btn btn-danger" onclick="return confirm('Are you sure you would like to delete this student record?')">Delete</a></td>
+    </tr>
+
+<!-- Edit existing student record -->
+  <div id="editRecord{{ student.id }}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Edit student details</h4>
+          </div>
+          <div class="modal-body">
+              <form action="{{ url_for('update') }}" method="POST">
+                <div class="form-group">
+                  <label>Student ID:</label>
+                  <input type="text" class="form-control" name="student_id" required="1" value="{{ student.id }}">
+                </div>
+
+                <div class="form-group">
+                  <label>First name:</label>
+                  <input type="hidden" name="id" value="{{ student.id }}">
+                  <input type="text" class="form-control" name="firstname" required="1" value="{{ student.firstname }}">
+                </div>
+
+                <div class="form-group">
+                  <label>Last name:</label>
+                  <input type="text" class="form-control" name="lastname" required="1" value="{{ student.lastname }}">
+                </div>
+
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" class="form-control" name="email" value="{{ student.email }}">
+                </div>
+
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Update student record</button>
+                </div>
+
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    </div>
+  </div>
+<!-- End of edit record pop-up -->
+
+  {% endfor %}
+
+</table>
+
+<!-- Add new student record -->
+  <div id="addRecord" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Enter new student</h4>
+          </div>
+          <div class="modal-body">
+              <form action="{{ url_for('insert') }}" method="POST">
+                <div class="form-group">
+                  <label>Student ID:</label>
+                  <input type="text" class="form-control" name="student_id" required="1">
+                </div>
+
+                <div class="form-group">
+                  <label>First name:</label>
+                  <input type="text" class="form-control" name="firstname" required="1">
+                </div>
+
+                <div class="form-group">
+                  <label>Last name:</label>
+                  <input type="text" class="form-control" name="lastname" required="1">
+                </div>
+
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" class="form-control" name="email" required="1">
+                </div>
+
+                <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Add student</button>
+                </div>
+
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    </div>
+  </div>
+  <!-- Else, if user is NOT logged in, present this template instead -->
+  {% else %}
+  <h3> It seems that you are not logged in. </h3>
+  <p> To be able to track student records, please log-in <a href="{{ url_for('login') }}">here.</a> </p>
+  {% endif %}
+
+
+<!-- End of add record pop-up -->
+
+{% endblock %}

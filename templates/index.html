@@ -1,0 +1,36 @@
+<!-- Import webpage layout -->
+{% extends "layout.html" %}
+{% block content %}
+<head><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}"> </head>
+
+
+<title>Home</title>
+
+{% if delete %}
+  <div class="alert alert-success" role="alert">
+    <strong> Success.</strong> {{ delete }} 
+  </div>
+{% endif %}
+
+<h1> Welcome to Student Tracker. </h1> 
+
+{% if current_user.is_authenticated %}
+  <h2> Nice to have you back, {{ current_user.username }}. </h2>
+{% endif %}
+
+<p>This CRUD application is designed to keep track of student details such as student ID, name and email.</p>
+
+<h2> Features include...</h2>
+<ul>
+  <li>Tracking student details.</li>
+  <li>Adding new details.</li>
+  <li>Delete existing details.</li>
+  <li>Edit existing details.</li>
+  <li>Login/logout functionality.</li>
+  <li>Ability for new users to register.</li>
+  <li>Use of MySQL and SQLAlchemy.</li>
+</ul>
+
+<p>Please note: this application uses a different database than mytwits. If any errors arise please contact me via email dquqa001@gold.ac.uk.</p>
+
+{% endblock %}
